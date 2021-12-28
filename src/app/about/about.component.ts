@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {noop, of} from "rxjs";
-import {createHttpObservable} from "../common/util";
+import {interval, merge} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Component({
@@ -14,10 +13,10 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
 
-    const source1$ = of(1, 2, 3);
-    const source2$ = of (4, 5, 6);
-
-
+    const interval1$ = interval(1000);
+    const interval2$ = interval1$.pipe(map(val => 10 * val));
+    const result$ = merge(interval1$, interval2$);
+    result$.subscribe(console.log);
 
   }
 
