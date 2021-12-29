@@ -45,7 +45,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
       this.lessons$ = fromEvent<any>(this.input.nativeElement, 'keyup')
         .pipe(
           map(event => event.target.value),
-          startWith(),
+          startWith(''),
           debounceTime(400),
           distinctUntilChanged(),
           //concatMap(search => this.loadLessons(search)) // does not cancel previous HTTP request !!!
