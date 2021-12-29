@@ -42,18 +42,15 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
-      const initialLessons$ = this.loadLessons();
-
-      const searchLessons$ = fromEvent<any>(this.input.nativeElement, 'keyup')
+      this.lessons$ = fromEvent<any>(this.input.nativeElement, 'keyup')
         .pipe(
           map(event => event.target.value),
+          startWith(),
           debounceTime(400),
           distinctUntilChanged(),
           //concatMap(search => this.loadLessons(search)) // does not cancel previous HTTP request !!!
           switchMap(search => this.loadLessons(search))
         );
-
-      this.lessons$ = concat(initialLessons$, searchLessons$)
     }
 
     loadLessons(search= '') : Observable<Lesson[]> {

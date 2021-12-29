@@ -8,7 +8,14 @@ export function createHttpObservable(url : string) {
 
     fetch(url, {signal})
       .then(response => {
-        return response.json();                 // get json from response
+
+        if (response.ok) {
+          return response.json();                 // get json from response
+        }
+        else {
+          observer.error('Request failed with status code: ' + response.status);
+        }
+
       })
       .then(body => {
         observer.next(body);
